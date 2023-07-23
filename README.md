@@ -15,6 +15,8 @@ Embedded application for Siemens OpenStage phone devices for managing boardroom 
 
 Registation-Boardroom is embedded application for Siemens OpenStage phone devices for managing boardroom bookings. Application has interface on phone client and it's own webportal. 
 
+![datasheet](https://github.com/st-mn/reg-boa/blob/main/datasheet.png?raw=true)
+
 ## Technologies
 
 The following technologies are used in this project:
