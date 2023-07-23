@@ -1,0 +1,990 @@
+<%@page language="java" session="true" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="registrationboardroom.Table"%>
+<%@page import="registrationboardroom.Portal"%>
+<%@page import="registrationboardroom.Browser"%>
+<%@page import="registrationboardroom.TableSetting"%>
+<%@page import="java.util.Enumeration"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%
+    Portal portal=(Portal) request.getAttribute("portal");  // Get main HttpServlet instance
+    String section=(String) request.getParameter("section");
+    session.setMaxInactiveInterval((60*Portal.getCache().getSessionTimeoutMinutes()));  // Set session expiration interval from Cache settings
+    String myname =  (String)session.getAttribute("username");
+    String sessionId=(String)session.getAttribute("sessionId");
+    Enumeration ids;
+    Browser browser=null;
+    if (session.isNew()) {
+    }
+    if (sessionId==null) {
+       sessionId=(String)session.getId();
+       session.setAttribute("sessionId",sessionId);
+       browser=Portal.getCache().addBrowser(session);
+    }
+    else {
+       browser=Portal.getCache().getBrowser(sessionId);
+    }
+%>
+<html>
+<head>
+  <title>RegistrationBoardroom</title>
+  <link rel=StyleSheet href="style.css" type="text/css">
+  <%@ include file="/javascript.jsp" %>
+<%
+
+    if (browser!=null)
+        if (!browser.getAction().equals("")) {
+            if (browser.getAction().equals("checklogin")) {
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                if (username == null) {
+                    %>
+                    <script type="text/javascript">
+                        window.onload=new Function(show_alert("You didn't enter phone number!"));
+                    </script>
+                    <%
+                } else if (password == null) {
+                    %>
+                    <script type="text/javascript">
+                        window.onload=new Function(show_alert("You didn't enter password!"));
+                    </script>
+                    <%
+                }
+                if (browser.login(username, password)) {
+
+                    if (username.equals("admin")) {
+                        session.setAttribute("username", "Admin");
+                        myname="Admin";
+                    }
+                    else {
+                        session.setAttribute("username", browser.getUsername());
+                        myname=browser.getUsername();
+                    }
+                }
+                else {
+                    %>
+                    <script type="text/javascript">
+                        window.onload=new Function(show_alert("Wrong username or password!"));
+                    </script>
+                    <%
+                }
+                browser.cancelAction();
+            }
+            
+            else if (browser.getAction().equals("newusername")) {
+                session.removeAttribute("username");
+                session.setAttribute("username", browser.getNewUsername());
+                myname=browser.getNewUsername();
+                browser.cancelAction();
+            }
+            else if (browser.getAction().equals("error")) {
+                    %>
+                    <script type="text/javascript">
+                        window.onload=new Function(show_alert('<% out.print(browser.getError()); %>'));
+                    </script>
+                    <%
+                browser.cancelAction();
+            }
+            
+            else if (browser.getAction().equals("logout")) {
+                String username=(String)session.getAttribute("username");
+                
+                if(username!=null) {
+                    myname=null;
+                    session.removeAttribute("username");
+                }
+            }
+}
+%>
+</head>
+<body>
+        <table class="headertable">
+        <tr class="zeros pageheader">
+            <td class="zeros pageheader thinbar">
+            </td>
+        </tr>
+        <tr class="zeros lightblue">
+            <td class="zeros logo white menu">
+                <a id="bigblack" href="./portal">RegistrationBoardroom</a>
+            </td>
+            
+            <td class="zeros menu">
+                <form class="zeros" id="changeboardroomform"action="./portal" method="post">
+                    <b class="menutitle">Boardroom:</b>
+                    <select name="boardrooms" class="zeros boardrooms" onchange="document.getElementById('changeboardroomform').submit()">
+                    <%
+
+                    ids = browser.boardrooms.keys();
+                    while (ids.hasMoreElements()) {
+                        Integer id = (Integer)ids.nextElement();
+                        String name = (String)browser.boardrooms.get(id);
+                        out.println("<option value=\""+id+"\"");
+                        if (browser.boardroom_id==id.intValue())
+                            out.println("selected");
+                        out.println(">"+name+"</option>");
+                    }
+
+                    %>
+                    </select>
+                    <input type="hidden" name="command" value="changeboardroom" />
+                </form>
+            </td>
+            
+            <%
+
+            if(myname!=null) {
+                if (myname.equals("Admin")) {
+
+            %>
+                <td class="zeros menu">
+                    <form class="zeros" action="./portal" method="post">
+                        <table class="zeros">
+                            <tr class="zeros addeditremove">
+                                <td class="zeros menubar">
+                                    <a href="#" onclick="showNewBoardroomLayer();"><img class="menubarimage" src="plus.gif" alt="plus" />add</a>
+                                </td>
+                                <td class="zeros menubar">
+                                    <a href="#" onclick="showEditBoardroomLayer();"><img class="menubarimage" src="edit.gif" alt="edit" />edit</a>
+                                </td>
+                                <td class="zeros menubar" >
+                                    <a href="#" onclick="deleteBoardroomConfirmation();"><img class="menubarimage" src="delete.gif" alt="delete" />remove</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            
+                <td class="zeros menu">
+                    <form class="zeros" id="changeuserform" action="./portal" method="post">
+                    <b class="menutitle">User:</b>
+                    <select class="zeros boardrooms" name="user" onchange="this.form.submit();">
+                    <%
+
+                    browser.loadUsers();
+                    ids = browser.getUsers().keys();
+                    while (ids.hasMoreElements()) {
+                        Integer id = (Integer)ids.nextElement();
+                        String name = (String)browser.getUsers().get(id);
+                        out.println("<option value=\""+id+"\"");
+                        if (browser.getHistoryUserId()==id.intValue())
+                            out.println("selected");
+                        out.println(">"+name+"</option>");
+                    }
+
+                    %>
+                    </select>
+                    <input type="hidden" name="command" value="history" />
+                    </form>
+                </td>
+                
+                <td class="zeros menu">
+                    <form class="zeros" action="./portal" method="post">
+                        <table>
+                            <tr class="zeros addeditremove">
+                                <td class="zeros menubar">
+                                    <a href="#" onclick="showNewUserLayer();"><img src="plus.gif" alt="plus" class="menubarimage" />add</a>
+                                </td>
+                                <td class="zeros menubar">
+                                    <a href="#" onclick="showEditUserLayer();"><img src="edit.gif" alt="edit" class="menubarimage"/>edit</a>
+                                </td>
+                                <td class="zeros menubar" >
+                                    <a href="#" onclick="deleteUserConfirmation();"><img src="delete.gif" alt="delete" class="menubarimage"/>remove</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            <%
+
+                }
+                else {
+
+            %>
+                <td class="zeros menu" width="70px">
+                    <table class="zeros">
+                            <tr class="zeros addeditremove">
+                                <td class="zeros menubar">
+                                <form id="showhistoryform" class="zeros" action="./portal" method="post">
+                                    <input type="hidden" name="command" value="history" />
+                                    <input type="hidden" name="user" value="<% out.print(browser.getUserId()); %>" />
+                                    <a href="#" onclick="document.forms['showhistoryform'].submit();">
+                                    History
+                                    </a>
+                                </form>
+                                </td>
+                            </tr>
+                    </table>
+                </td>
+            <%
+
+                }
+            }
+
+        %>
+        </tr>
+        </table>
+
+        <table style="float:right;">
+                <tr>
+
+        <%
+
+        if(myname!=null) {
+            if (myname.equals("Admin")) {
+
+        %>
+                    <td class="zeros mainmenu">
+                        <table class="zeros noborder">
+                        <tr class="zeros darkblue noborder">
+                            <td class="mainmenubar">
+                                <a href="#" onclick="showNewEventLayer();">New Event</a>
+                            </td>
+                            <td class="mainmenubar">
+                                <a href="#" onclick="showSettingsLayer();">Table Settings</a>
+                            </td>
+                            <td class="mainmenubar">
+                                <a href="#" onclick="showChangePasswordLayer();">Account Settings</a>
+                            </td>
+                            <td class="mainmenubar">
+                                <a href="#" onclick="showStatisticsLayer();">Statistics</a>
+                            </td>
+                            <td class="mainmenubar">
+                            <form class="zeros" id="logoutform" action="./portal" method="post">
+                            <input type="hidden" name="command" value="logout" />
+                            <input type="button" onclick="document.forms['logoutform'].submit();" value="<%out.println("Logout "+myname);%>"/>
+                            </form>
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+        <%
+            }
+            else {
+        %>
+                        <td class="zeros mainmenu">
+                            <table class="zeros noborder">
+                            <tr class="zeros darkblue noborder">
+                                <td class="mainmenubar">
+                                    <a href="#" onclick="showNewEventLayer();">New Event</a>
+                                </td>
+                                <td class="mainmenubar">
+                                    <a href="#" onclick="showSettingsLayer();">Table Settings</a>
+                                </td>
+                                <td class="mainmenubar">
+                                    <a href="#" onclick="showChangePasswordLayer();">Account Settings</a>
+                                </td>
+                                <td class="mainmenubar">
+                                <form id="logoutform" class="zeros" action="./portal" method="post">
+                                <input type="hidden" name="command" value="logout" />
+                                <input type="button" onclick="document.forms['logoutform'].submit();" value="<%out.println("Logout "+myname);%>"/>
+                                </form>
+                                </td>
+                            </tr>
+                            </table>
+                        </td>
+        <%
+            }
+        }
+        else {
+            if (!browser.getAction().equals("")) {
+                if (browser.getAction().equals("logout")) {
+                %>
+                        <td class="zeros mainmenu">
+                            <table class="zeros noborder">
+                            <tr class="noborder">
+                                <td class="mainmenubar">
+                                You have been logged out.
+                                <a href="#" onclick="location.href='./portal'">
+                                Login again
+                                </a>
+                                </td>
+                            </tr>
+                            </table>
+                        </td>
+                <%
+                }
+            }
+            else {
+                %>
+                        <td class="zeros mainmenu">
+                            <table class="zeros noborder">
+                            <tr style="background-color: #99CCFF;border-style: none;">
+                                <form id="loginform" class="zeros" action="./portal" method="post">
+                                <input type="hidden" name="command" value="checklogin" />
+                                <td class="mainmenubar" >
+                                    <b style="color:black;font-size:11px;"class="zeros left">Phone number:</b>
+                                <input class="zeros" name="username" size=15 />
+                                </td>
+                                <td class="mainmenubar">
+                                    <b style="color:black;font-size:11px;" class="zeros left">Password:</b>
+                                <input class="zeros" name="password" size=15 type="password" onkeypress="return submitenter(document.forms['loginform'],event)"/>
+                                </td>
+                                <td class="mainmenubar">
+                                    <input style="height:11px;"type="button" onclick="document.forms['loginform'].submit();" value="Login"/>
+                                </td>
+                                </form>
+                            </tr>
+                            </table>
+                        </td>
+            <%
+            }
+        }
+        %> 
+        </tr>
+    </table>
+    <table class="zeros noborder section sectiontable">
+        <tr class="zeros mainmenubar section">
+            <td class="zeros section">
+                <b class="menutitle">Section:</b>
+                <select name="boardrooms" class="zeros boardrooms" onchange="changesection(this.options[this.selectedIndex].value)">
+                                <option value="" <% if (section == null) out.print(" selected "); %> >Administration</option>
+                                <option value="overview" <% if (section != null) if (section.equals("overview")) out.print("selected"); %> >Overview</option>
+                                <option value="about" <% if (section != null) if (section.equals("about")) out.print("selected"); %> >About</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+<div>
+    <br>
+        <form id="previous" action="./portal" method="post">
+            <input type="hidden" name="command" value="previous_week" />
+        </form>
+        <form id="next" action="./portal" method="post">
+            <input type="hidden" name="command" value="next_week" />
+        </form>       
+        <form id="deleteeventform" action="./portal" method="post">
+            <input type="hidden" name="command" value="deleteevent" />
+            <input type="hidden" name="reservation_id" />
+        </form>
+        <form id="deleteuserform" action="./portal" method="post">
+            <input type="hidden" name="command" value="deleteuser" />
+            <input type="hidden" name="user_id" />
+        </form>
+        <form id="deleteboardroomform" action="./portal" method="post">
+            <input type="hidden" name="command" value="deleteboardroom" />
+            <input type="hidden" name="boardroom_id" />
+        </form>
+        <center>
+
+        <%
+
+    if (section==null) {
+
+        switch(browser.getActiveCategory()){
+            case Browser.BOARDROOMS:
+                if (browser.boardroom_id!=0)
+                out.println(browser.getWeekTable(browser.deltaweeks,browser.tableSetting,browser.boardroom_id));
+
+                %>
+                <br>
+                <br>
+                <%
+
+                if(myname!=null) {
+                    if (myname.equals("Admin")) {
+                       out.println(browser.getWeekReservations(true,browser.user_id, browser.deltaweeks, browser.tableSetting, browser.boardroom_id));
+                    }
+                    else {
+                       out.println(browser.getWeekReservations(false,browser.user_id, browser.deltaweeks, browser.tableSetting, browser.boardroom_id));
+                    }
+                }
+                break;
+            case Browser.USERS:
+                if (!browser.getAction().equals("")) {
+                    if (browser.getAction().equals("showhistory")) {
+                        out.println(browser.getHistory());
+                        browser.cancelAction();
+                    }
+                }
+
+                %>
+                <br>
+                </center>
+                <%
+                break;
+        }
+    }
+    else {
+        if (section.equals("overview")) {
+        %>
+            <%@ include file="/sections/overview.jsp" %>
+        <%
+        }
+        else if (section.equals("about")) {
+        %>
+            <%@ include file="/sections/about.jsp" %>
+        <%
+        }
+    }
+
+        %>
+        <div id="bg_mask">
+                <div id="changepasswordlayer" class="layer changepassword">
+                    <input style="float:right;" type="button" value="X" onclick="hideChangePasswordLayer();"/>
+                    <br>
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>Account Settings</h3>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h4>Change Password</h4>
+                                </center>
+                            </td>
+                        </tr>
+                        <form id="changepassword" action="./portal" method="post">
+                        <input type="hidden" name="command" value="changepassword" />
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Current Password:
+                            </td>
+                            <th>
+                               <input style="float:left;" type="password" name="current_password" value="" />
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                New Password:
+                            </td>
+                            <th>
+                               <input style="float:left;" type="password" name="new_password1" value="" />
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Again:
+                            </td>
+                            <th>
+                               <input style="float:left;" type="password" name="new_password2" value="" />
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="submit" value="Change"/>
+                                </center>
+                            </td>
+                        </tr>
+                        </form>
+                        <form id="changename" action="./portal" method="post">
+                        <input type="hidden" name="command" value="changename" />
+                        <tr>
+                            <td colspan="2" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h4>Change Name</h4>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Name:
+                            </td>
+                            <th>
+                               <input style="float:left;" type="text" name="new_name" value="<% out.println(myname); %>"/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="submit" value="Change"/>
+                                </center>
+                            </td>
+                        </tr>
+                        </form>
+                    </table>   
+                </div>
+                            
+                <div id="statisticslayer" class="layer" style="height:<%out.print(Integer.valueOf(550+(portal.cache.getSessions()-1)*36)); %>px;">
+                    <input style="float:right;" type="button" value="X" onclick="hideStatisticsLayer();"/>
+                    <br>
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>Statistics</h3>
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <center><% out.println(Portal.getCache().getStats()); %></center>
+                </div>
+
+                <div id="settingslayer" class="layer settings">
+                    <form action="./portal" method="post">
+                    <input type="hidden" name="command" value="settings" />
+                    <input style="float:right;" type="button" value="X" onclick="hideSettingsLayer();"/>
+                    <br>
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>Table Settings</h3>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Timezone:
+                            </td>
+                            <th>
+                            <select name="timezone" style="width:130px;float:left;">
+                            <%
+                            for (int i=0;i<portal.timezones.length;i++) {
+                                out.println("<option value=\""+portal.timezones[i]+"\"");
+                                if (portal.timezones[i].equals(browser.tableSetting.getTimezone()))
+                                    out.println("selected");
+                                out.println(">"+portal.timezones[i]+"</option>");
+                            }
+                            %>
+                            </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Start Hour:
+                            </td>
+                            <th>
+                               <select name="starthour" style="width:50px;float:left;">
+                                   <%
+                                   for (int i=0;i<24;i++) {
+                                       out.println("<option value=\""+String.valueOf(i)+"\"");
+                                       if (browser.tableSetting.getStartHour()==i)
+                                           out.println(" selected ");
+                                       out.println(">"+String.valueOf(i)+"</option>");
+                                   }
+                                   %>
+                               </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                End Hour:
+                            </td>
+                            <th>
+                               <select name="endhour" style="width:50px;float:left;">
+                                   <%
+                                   for (int i=0;i<24;i++) {
+                                       out.println("<option value=\""+String.valueOf(i)+"\"");
+                                       if (browser.tableSetting.getEndHour()==i)
+                                           out.println(" selected ");
+                                       out.println(">"+String.valueOf(i)+"</option>");
+                                   }
+                                   %>
+                               </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Step (Minutes):
+                            </td>
+                            <th>
+                               <select name="precision" style="width:50px;float:left;">
+                                   <option value="0" <% if (browser.tableSetting.getPrecision()==0) { out.println("selected"); } %>>60</option>
+                                   <option value="1" <% if (browser.tableSetting.getPrecision()==1) { out.println("selected"); } %>>30</option>
+                                   <option value="2"<% if (browser.tableSetting.getPrecision()==2) { out.println("selected"); } %>>15</option>
+                               </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                First day of a Week:
+                            </td>
+                            <th>
+                               <select name="firstday" style="width:75px;float:left;">
+                                   <option value="0" <% if (browser.tableSetting.getFirstDay()==0) { out.println("selected"); } %>>Sunday</option>
+                                   <option value="1" <% if (browser.tableSetting.getFirstDay()==1) { out.println("selected"); } %>>Monday</option>
+                               </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Show Weekend:
+                            </td>
+                            <th>
+                               <input name="weekend" style="width:50px;float:left;" value="true" type="checkbox" <% if (browser.tableSetting.getWeekend()) { out.println("checked=\"yes\""); } %>/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                AM/PM:
+                            </td>
+                            <th>
+                               <input name="ampm" style="width:50px;float:left;" value="true" type="checkbox" <% if (browser.tableSetting.getAMPM()) { out.println("checked=\"yes\""); } %>/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="button" onclick="this.form.submit();" value="Save"/>
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+                    </form>
+                </div>
+
+                <div id="neweventlayer" class="layer newevent">
+                    <form action="./portal" method="post">
+                    <input type="hidden" name="command" value="findfreeroomsfornewreservation" />
+                    <input style="float:right;" type="button" value="X" onclick="hideNewEventLayer();"/>
+                    <br>
+                    <%
+                    Date today=new Date();
+                    DateFormat dfdate = new SimpleDateFormat("dd.MM.yyyy");
+                    DateFormat dftime = new SimpleDateFormat("HH:mm");
+                    %>
+
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>New Event</h3>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Name:
+                            </td>
+                            <th>
+                                <input style="float:left;" type="text" name="name" value="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Date:
+                            </td>
+                            <th>
+                                <input style="float:left;" type="text" name="date" value="<% out.println(dfdate.format(today).toString()); %>">
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Start Time:
+                            </td>
+                            <th>
+                                <input style="float:left;" type="text" name="starttime" value="<% out.println(dftime.format(today).toString()); %>">
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                End Time:
+                            </td>
+                            <th>
+                                <input style="float:left;"type="text" name="endtime" value="<% out.println(dftime.format(today).toString()); %>">
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="button" onclick="this.form.submit();" value="Find free rooms"/>
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+                    </form>
+                </div>
+
+                <div id="editeventlayer" class="layer editevent">  
+                    <input style="float:right;" type="button" value="X" onclick="hideEditEventLayer();"/>
+                    <br>
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>Edit Event</h3>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Name:
+                            </td>
+                            <th>
+                                <form name="changeeventnameform" action="./portal" method="post">
+                                <input type="hidden" name="command" value="changeeventname" />
+                                <input type="hidden" name="reservation_id" />
+                                <input name="date"  type="hidden"/>
+                                <input name="starttime" type="hidden"/>
+                                <input name="endtime" type="hidden" />
+                                <input style="float:left;" type="text" name="event_name"/>
+                                <input style="float:left;" type="button" onclick="this.form.submit();" value="Save"/>
+                                </form>
+                            </th>
+                        </tr>
+                        <form name="findfreeroomsform" action="./portal" method="post">
+                        <input type="hidden" name="command" value="findfreerooms" />
+                        <input type="hidden" name="reservation_id" />
+                        <input type="hidden" name="event_name" />
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Date:
+                            </td>
+                            <th>
+                                <input name="date" style="float:left;" type="text" />
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Start Time:
+                            </td>
+                            <th>
+                                <input name="starttime"style="float:left;" type="text"/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                End Time:
+                            </td>
+                            <th>
+                                <input name="endtime" style="float:left;"type="text" />
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="button" onclick="this.form.submit();" value="Find free rooms"/>
+                                </center>
+                            </td>
+                        </tr>
+                        </form>
+                    </table>
+                </div>
+
+                <div id="freeboardroomslayer" class="layer freeboardrooms">
+                    <input style="float:right;" type="button" value="X" onclick="hideFreeBoardroomsLayer();"/>
+                    <br>
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>Choose Free Boardroom:</h3>
+                                </center>
+                            </td>
+                        </tr>
+                        <form name="selectfreeboardroom" action="./portal" method="post">
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Name:
+                            </td>
+                            <th>
+                                <input type="hidden" name="command" value="selectfreeboardroom" />
+                                <select name="boardrooms" style="width:100px;float:left;">
+                                <%
+                                if (browser.getFreeBoardrooms() != null) {
+                                    Enumeration idss = browser.getFreeBoardrooms().keys();
+                                    while (idss.hasMoreElements()) {
+                                        Integer id = (Integer)idss.nextElement();
+                                        String name = (String)browser.getFreeBoardrooms().get(id);
+                                        out.println("<option value=\""+id+"\"");
+                                        if (browser.boardroom_id==id.intValue())
+                                            out.println("selected");
+                                        out.println(">"+name+"</option>");
+                                    }
+                                }
+                                %>
+                                </select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="button" onclick="this.form.submit();" value="Reserve"/>
+                                </center>
+                            </td>
+                        </tr>
+                        </form>
+                    </table>
+                </div>
+
+                <div id="newuserlayer" class="layer newuser">
+                    <input style="float:right;" type="button" value="X" onclick="hideNewUserLayer();"/>
+                    <br>
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>New User</h3>
+                                </center>
+                            </td>
+                        </tr>
+                        <form name="newuser" action="./portal" method="post">
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Phone Number:
+                            </td>
+                            <th>
+                                <input type="hidden" name="command" value="newuser" />
+                                <input style="float:left;" type="text" name="phone" value=""/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Name:
+                            </td>
+                            <th>
+                                <input style="float:left;" type="text" name="name" value=""/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="button" onclick="this.form.submit();" value="Create"/>
+                                </center>
+                            </td>
+                        </tr>
+                        </form>
+                    </table>
+                </div>
+
+                <div id="newboardroomlayer" class="layer newboardroom">
+                    <input style="float:right;" type="button" value="X" onclick="hideNewBoardroomLayer();"/>
+                    <br>
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>New Boardroom</h3>
+                                </center>
+                            </td>
+                        </tr>
+                        <form name="newboardroom" action="./portal" method="post">
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Name:
+                            </td>
+                            <th>
+                                <input type="hidden" name="command" value="newboardroom" />
+                                <input style="float:left;" type="text" name="name" value=""/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="button" onclick="this.form.submit();" value="Create"/>
+                                </center>
+                            </td>
+                        </tr>
+                        </form>
+                    </table>
+                </div>
+
+                <div id="edituserlayer" class="layer edituser">
+                    <input style="float:right;" type="button" value="X" onclick="hideEditUserLayer();"/>
+                    <br>
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>Edit User</h3>
+                                </center>
+                            </td>
+                        </tr>
+                        <form name="edituserform" action="./portal" method="post">
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Name:
+                            </td>
+                            <th>
+                                <input type="hidden" name="command" value="edituser" />
+                                <input type="hidden" name="id" />
+                                <input style="float:left;" type="text" name="name" value=""/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Phone:
+                            </td>
+                            <th>
+                                <input style="float:left;" type="text" name="phone" value=""/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="button" onclick="this.form.submit();" value="Save"/>
+                                </center>
+                            </td>
+                        </tr>
+                        </form>
+                        <form name="resetuserform" action="./portal" method="post">
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="hidden" name="command" value="resetuser" />
+                                    <input type="hidden" name="id" />
+                                    <input type="button" onclick="this.form.submit();" value="Reset password"/>
+                                </center>
+                            </td>
+                        </tr>
+                        </form>
+                    </table>
+                </div>
+
+                <div id="editboardroomlayer" class="layer newboardroom">
+                    <input style="float:right;" type="button" value="X" onclick="hideEditBoardroomLayer();"/>
+                    <br>
+                    <table width="100%" >
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                <h3>Edit Boardroom</h3>
+                                </center>
+                            </td>
+                        </tr>
+                        <form name="editboardroomform" action="./portal" method="post">
+                        <tr>
+                            <td style="vertical-align:middle;">
+                                Name:
+                            </td>
+                            <th>
+                                <input type="hidden" name="command" value="editboardroom" />
+                                <input type="hidden" name="id"/>
+                                <input style="float:left;" type="text" name="name" value=""/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" >
+                                <center>
+                                    <input type="button" onclick="this.form.submit();" value="Save"/>
+                                </center>
+                            </td>
+                        </tr>
+                        </form>
+                    </table>
+                </div>
+        </div>
+</div>
+    <%
+
+        if (!browser.getAction().equals("")) {
+            if (browser.getAction().equals("freeboardroomsfinded")) {
+                    %>
+                    <script type="text/javascript">
+                        window.onload=new Function(showFreeBoardroomsLayer());
+                    </script>
+                    <%
+                browser.cancelAction();
+            }
+            if (browser.getAction().equals("logout")) {
+                Portal.getCache().removeBrowser(session.getId());
+                session.invalidate();
+                browser.cancelAction();
+            }
+        }
+                                
+    %>
+</body>
+</html>

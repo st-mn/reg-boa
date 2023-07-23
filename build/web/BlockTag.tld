@@ -1,0 +1,18 @@
+<taglib>
+<tlib-version>1.0</tlib-version>
+<jsp-version>1.2</jsp-version>
+<short-name>block</short-name>
+<uri>/BlockTag.tld</uri>
+<description>
+Block in jsp file
+</description>
+<tag>
+<name>block</name>
+<tag-class>registrationboardroom.BlockTag</tag-class>
+<body-content>JSP</body-content>
+<attribute>
+<name>name</name>
+<required>false</required>
+</attribute>
+</tag>
+</taglib>
