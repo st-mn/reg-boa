@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/reg-boardroom/!svn/ver/2/trunk/src/java/registrationboardroom
+END
+Portal.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/reg-boardroom/!svn/ver/21/trunk/src/java/registrationboardroom/Portal.java
+END
+Reservation.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/reg-boardroom/!svn/ver/2/trunk/src/java/registrationboardroom/Reservation.java
+END
+Browser.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/reg-boardroom/!svn/ver/15/trunk/src/java/registrationboardroom/Browser.java
+END
+Cache.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/reg-boardroom/!svn/ver/15/trunk/src/java/registrationboardroom/Cache.java
+END
+RB.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/reg-boardroom/!svn/ver/14/trunk/src/java/registrationboardroom/RB.java
+END
+DB.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/reg-boardroom/!svn/ver/17/trunk/src/java/registrationboardroom/DB.java
+END
+TableSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/reg-boardroom/!svn/ver/2/trunk/src/java/registrationboardroom/TableSetting.java
+END
+BlockTag.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/reg-boardroom/!svn/ver/10/trunk/src/java/registrationboardroom/BlockTag.java
+END
+Table.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/reg-boardroom/!svn/ver/19/trunk/src/java/registrationboardroom/Table.java
+END
+Phone.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/reg-boardroom/!svn/ver/2/trunk/src/java/registrationboardroom/Phone.java
+END
+View.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/reg-boardroom/!svn/ver/2/trunk/src/java/registrationboardroom/View.java
+END
+Statistics.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/reg-boardroom/!svn/ver/4/trunk/src/java/registrationboardroom/Statistics.java
+END
+SHA.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/reg-boardroom/!svn/ver/2/trunk/src/java/registrationboardroom/SHA.java
+END
+OverrideTag.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/reg-boardroom/!svn/ver/10/trunk/src/java/registrationboardroom/OverrideTag.java
+END

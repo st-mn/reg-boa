@@ -1,0 +1,62 @@
+.page {
+	size: A4 landscape;
+	padding-top: 0.5cm;
+	padding-bottom: 0.5cm;
+        -webkit-transform: rotate(-90deg);
+        -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+/*
+Table css style written by Braulio Soncco downloaded from http://test.buayacorp.com/cuscosky.css
+*/
+table, th, td {
+        margin-top: 0px;
+        padding-top: 0px;
+        border: 1px solid #D4E0EE;
+        border-collapse: collapse;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        color: black;
+        font-size: 13px;
+}
+
+td {
+        padding: 3px;
+        vertical-align: text-top;
+        text-align: right;
+        height: 27px;
+}
+th {
+        padding: 4px;
+
+}
+thead th {
+        text-align: center;
+        background: #E6EDF5;
+        color: #4F76A3;
+        font-size: 13px;
+}
+tbody th {
+        font-weight: bold;
+}
+tbody tr {
+        background: #FCFDFE;
+}
+tbody tr.odd {
+        background: #F7F9FC;
+}
+tfoot th, tfoot td {
+        font-size: 12px;
+}
+/*
+hide next and previous links
+*/
+a:link {
+	display: none;
+}
+a:visited {
+	display: none;
+}
+a:hover, a:active, a:focus {
+	display: none;
+}
+
