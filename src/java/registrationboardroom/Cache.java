@@ -1,27 +1,37 @@
 /*
- * Cleaning thread class which can manipulate with logger and cache instances. After set these in constructor method
- * process() is enabled to go through all Browser instances saved in cache. Then find all browser instance which
- * inactivity duration is greater then sessionTimeoutMinutes variable and remove them by removeBrowser from class Cache.
-3 classes (CleaningThread, CleaningService, and Cache) and some utility methods used for managing a cache of Browser instances and implementing a cleaning service to remove inactive sessions from the cache.
+Cleaning thread class which can manipulate with logger and cache instances. After set these in constructor method
+process() is enabled to go through all Browser instances saved in cache. Then find all browser instance which
+inactivity duration is greater then sessionTimeoutMinutes variable and remove them by removeBrowser from class Cache.
+3 classes (CleaningThread, CleaningService, and Cache) and some utility methods used for managing a cache of Browser instances 
+and implementing a cleaning service to remove inactive sessions from the cache.
 
-This class implements the Runnable interface and is responsible for checking the inactivity duration of Browser instances in the cache and removing inactive sessions.
+Cache class:
+This class implements the Runnable interface and is responsible for checking the inactivity duration of Browser instances
+in the cache and removing inactive sessions.
 It takes the Cache, sessionTimeoutMinutes, and Logger instances as parameters in its constructor.
 The run() method is used to execute the cleaning process, which is done by invoking the process() method.
-The process() method iterates through all Browser instances stored in the cache, calculates their inactivity duration, and removes sessions with inactivity exceeding the sessionTimeoutMinutes.
-CleaningService class:
+The process() method iterates through all Browser instances stored in the cache, calculates their inactivity duration, 
+and removes sessions with inactivity exceeding the sessionTimeoutMinutes.
 
+CleaningService class:
 This class manages the CleaningThread and provides methods to activate and deactivate the cleaning process.
 It uses a ScheduledExecutorService to schedule the cleaning thread with a fixed delay.
-The activate() method takes the Cache, serviceRefreshMinutes, sessionTimeoutMinutes, and Logger instances as parameters to create a new CleaningThread and schedule it for periodic execution.
+The activate() method takes the Cache, serviceRefreshMinutes, sessionTimeoutMinutes, 
+and Logger instances as parameters to create a new CleaningThread and schedule it for periodic execution.
 The deactivate() method is used to stop the cleaning service by shutting down the ScheduledExecutorService.
-Cache class:
 
-This is the main cache class responsible for storing and managing Browser instances in a Hashtable and providing methods for accessing and modifying the cache.
+Cache class:
+This is the main cache class responsible for storing and managing Browser instances in a Hashtable 
+and providing methods for accessing and modifying the cache.
 It includes methods for adding, retrieving, and removing Browser instances from the cache based on their session ID.
 The class also tracks user sessions using a list of usernames and provides methods to check if a username is logged in or not.
 The getStats() method generates a statistics table containing information about active sessions, memory usage, uptime, etc.
 The class contains methods to start and stop the cleaning service using the CleaningService class.
-Overall, the code demonstrates an implementation of a cache mechanism for managing Browser instances and a cleaning service that periodically removes inactive sessions from the cache. The cache is maintained using a Hashtable, and the cleaning service is scheduled for execution at regular intervals using a ScheduledExecutorService. The Cache class also provides methods to track active user sessions and gather statistics about the cache and user activity.
+
+Overall, the code demonstrates an implementation of a cache mechanism for managing Browser instances 
+and a cleaning service that periodically removes inactive sessions from the cache. The cache is maintained using a Hashtable, 
+and the cleaning service is scheduled for execution at regular intervals using a ScheduledExecutorService. 
+The Cache class also provides methods to track active user sessions and gather statistics about the cache and user activity.
  
  */
 package registrationboardroom;
