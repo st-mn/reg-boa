@@ -1,37 +1,43 @@
 /*
- * Individual to each phone that accesses the application, contains methods to process requests 
- * received from the phone and construct appropriate XML responses
-class named Phone, which appears to be a part of a web application designed to handle requests from phones and generate appropriate XML responses. It contains methods and properties to process phone requests, manage reservations, and handle user-related functionality. Let's break down the key elements of the code:
+Individual to each phone that accesses the application, contains methods to process requests 
+received from the phone and construct appropriate XML responses
+class named Phone, which appears to be a part of a web application designed to handle requests from phones 
+and generate appropriate XML responses. It contains methods and properties to process phone requests, manage reservations, 
+and handle user-related functionality. 
 
 Class Members:
-
-Several private instance variables (thisMachine, separator, programDir, administratorsPasswordFile, userDir, etc.) represent file paths and URLs related to the application's configuration and user data storage.
+Several private instance variables (thisMachine, separator, programDir, administratorsPasswordFile, userDir, etc.) 
+represent file paths and URLs related to the application's configuration and user data storage.
 phonenumber: A string variable representing the phone number associated with the current Phone object.
 url: A string variable holding the URL of the application to be inserted into each XML screen.
 imageUrl: A string variable holding the URL of the folder that contains images required for the application.
 administratorsPasswordHash and usersPasswordHash: String variables containing SHA-1 hashed passwords of administrators and users, respectively.
 firstTimeNumber: A boolean flag indicating whether the phone number is being used for the first time or not.
 logger, db, and view: Instances of Logger, DB, and View classes, used for logging, database interaction, and constructing views for XML responses.
+
 Constructor:
+The class has a constructor that initializes the Phone object. It sets up various configuration parameters, 
+such as url, imageUrl, thisMachine, and initializes the View instance.
 
-The class has a constructor that initializes the Phone object. It sets up various configuration parameters, such as url, imageUrl, thisMachine, and initializes the View instance.
 generateXML(HttpServletRequest request) Method:
-
 This method takes an HTTP request from a phone as input and generates an appropriate XML response.
 It first extracts the parameters from the request and processes them based on the command provided by the phone.
 Depending on the command, different XML responses are generated using the View instance and returned as strings.
+
 Command Handling:
-
-The generateXML method processes various commands such as MAIN_FORM, ABOUT_FORM, ADD_BOARDROOM_FORM, UPDATE_BOARDROOMS_FORM, REMOVE_BOARDROOMS_FORM, etc., to generate different XML responses for different views or actions.
+The generateXML method processes various commands such as MAIN_FORM, ABOUT_FORM, ADD_BOARDROOM_FORM, UPDATE_BOARDROOMS_FORM, REMOVE_BOARDROOMS_FORM, etc.,
+to generate different XML responses for different views or actions.
 For example, when the command is MAIN_FORM, it calls view.MainForm() to generate an XML representation of the main form for the application.
-Reservation Handling:
 
+Reservation Handling:
 The class manages reservation-related commands and functionality such as creating, updating, and canceling reservations.
 It uses a Reservation object to store reservation information and utilizes the DB class to interact with the underlying database.
-User Handling:
 
+User Handling:
 The class handles user-related commands, such as changing user passwords, managing user data, and user authentication using SHA-1 hashed passwords.
-Overall, this class seems to be an integral part of a web application that handles phone-based interactions and provides XML responses based on the received requests. It appears to facilitate user authentication, reservation management, and administrative functionality for a boardroom reservation system.
+Overall, this class seems to be an integral part of a web application that handles phone-based interactions and provides XML responses 
+based on the received requests. It appears to facilitate user authentication, reservation management, 
+and administrative functionality for a boardroom reservation system.
  */
 
 package registrationboardroom;
