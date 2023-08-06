@@ -1,3 +1,34 @@
+/**
+ *
+ * Class for mapping reservation object to memory for easier comparing with another records
+Java class called Reservation, which is used to map reservation objects to memory for easier comparison with other records. Let's break down the code and understand its main components:
+
+Package and Imports: The class is defined within the package registrationboardroom. It imports several classes required for date manipulation, logging, and database operations.
+
+Class Variables:
+
+id: An integer variable representing the unique identifier of the reservation.
+phone: An integer variable representing the phone associated with the reservation.
+boardroom_id: An integer variable representing the ID of the boardroom where the reservation is made.
+event_name: A string variable representing the name of the event associated with the reservation.
+start: A Date object representing the start date and time of the reservation.
+end: A Date object representing the end date and time of the reservation.
+Constructor: The class has a constructor used to initialize the Reservation object with values for its member variables. Instead of using individual setter methods, the constructor directly sets the values.
+
+Getters: The class provides getter methods to access the private member variables of the Reservation object. These methods allow external classes to retrieve information about the reservation object.
+
+findFreeBoardrooms() Method: This method takes a DB object (representing the database connection) and a Logger object (for logging) as input parameters. The purpose of this method is to find free boardrooms (rooms without conflicting reservations) for the current reservation object.
+
+The method retrieves all existing reservations from the database using the getReservations() method of the DB object.
+It creates a list of Reservation objects (reservations) to store the existing reservations.
+It then retrieves all existing boardrooms from the database using the getBoardrooms() method of the DB object and creates a list of boardroom IDs (freeboardrooms).
+The method iterates through each reservation in the reservations list and compares its start and end dates with the start and end dates of the current Reservation object.
+If there is a time overlap between the existing reservation and the current reservation, the boardroom associated with the existing reservation is removed from the freeboardrooms list, as it is not available for the current reservation.
+After checking all existing reservations, the method returns the freeboardrooms list containing boardroom IDs that are available for the current reservation.
+It's important to note that the functionality of this class depends on the implementation of the DB class (not provided in the code snippet) to retrieve reservations and boardrooms from the database. The Logger object is used for debugging purposes and logging information related to the reservations and boardrooms.
+
+Overall, the Reservation class is designed to represent a single reservation record and provides methods to access its properties and find available boardrooms for the reservation.
+ */
 package registrationboardroom;
 
 import java.util.ArrayList;
@@ -5,12 +36,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import org.apache.log4j.Logger;
-/**
- *
- * Class for mapping reservation object to memory for easier comparing with another records
- *
- * 
- */
+
 public class Reservation {
 
     /*
