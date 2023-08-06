@@ -1,13 +1,11 @@
 /*
- * Class for generating xml responses for Openstage phone by using getXML() method of IppForm or Ipplis
- * which are basic controls of phonescreengenerator library
+Class for generating xml responses for Openstage phone by using getXML() method of IppForm or Ipplis
+which are basic controls of phonescreengenerator library
 
- Java class named View that generates XML responses for an Openstage phone application. It is used to create various forms and screens for managing boardroom reservations and administration. Let's break down the code and its functionality:
-
-Imports: The class includes several import statements to import required libraries and classes for the phone application.
+Java class named View that generates XML responses for an Openstage phone application. 
+It is used to create various forms and screens for managing boardroom reservations and administration.
 
 Class Variables:
-
 logger: An instance of the Logger class from the Apache log4j library.
 url: A string representing the URL of the application to insert into each XML screen.
 imageUrl: A string representing the URL of the folder that holds images required for the application.
@@ -18,12 +16,18 @@ db: An instance of the DB class (custom database object) used to interact with t
 freeboardrooms: An ArrayList<Integer> that holds a list of free boardrooms.
 Constructor: The class has a constructor that initializes its member variables.
 
-Methods: The class contains several methods to generate XML forms and screens for various functionalities such as managing reservations, boardrooms, user information, passwords, and more. These methods include:
+Methods: 
+The class contains several methods to generate XML forms and screens for various functionalities such as managing reservations, 
+boardrooms, user information, passwords, and more. These methods include:
 
 Methods to generate forms for changing passwords, user information, and administrative tasks.
 Methods to generate lists of boardrooms, reservations, and their related actions.
 Methods to handle information screens, error screens, and confirmation screens.
-Overall, the View class appears to be a part of a larger Java application that creates XML responses for an Openstage phone, facilitating boardroom reservations and administrative tasks. It uses the phonescreengenerator library to build the XML-based screens and forms. The application likely communicates with a database to manage boardroom reservations and user information.
+
+Overall, the View class appears to be a part of a larger Java application that creates XML responses 
+for an Openstage phone, facilitating boardroom reservations and administrative tasks. 
+It uses the phonescreengenerator library to build the XML-based screens and forms. 
+The application likely communicates with a database to manage boardroom reservations and user information.
  */
 
 package registrationboardroom;
