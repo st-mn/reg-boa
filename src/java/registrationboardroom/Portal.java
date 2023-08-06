@@ -1,31 +1,34 @@
 /**
- *
- * Class which provide Administration by web browser
- Java servlet class called Portal, which is part of a web application for handling administration tasks related to boardroom reservations. Let's break down the code and understand its main components:
-
-Package and Imports: The class is defined within the package registrationboardroom. It imports various classes and packages required for servlets, logging, and database operations.
+Class which provide Administration by web browser
+Java servlet class called Portal, which is part of a web application for handling administration tasks related to boardroom reservations. 
 
 Class Variables:
 
-Several private constants like cleaningService, defaultServiceRefreshMinutes, defaultSessionTimeoutMinutes, mysqlDateTimeFormat, tableDateTimeFormat, etc., are defined to store configuration values and date/time formats.
+Several private constants like cleaningService, defaultServiceRefreshMinutes, defaultSessionTimeoutMinutes, mysqlDateTimeFormat, tableDateTimeFormat, etc., 
+are defined to store configuration values and date/time formats.
 sessionTimeoutMinutes and serviceRefreshMinutes are static variables to store the session timeout and service refresh interval values, respectively.
 created is a static variable holding the date when the servlet was created.
 logger is an instance of the Logger class from Apache Log4j library used for logging.
 db is an instance of the DB class representing the database connection and operations.
 timezones is an array holding available time zone IDs.
-Init() Method: This method is executed when the servlet is initialized. It sets up the logger, gets available timezones, and initializes the database connection.
+Init() Method: This method is executed when the servlet is initialized. 
+It sets up the logger, gets available timezones, and initializes the database connection.
 
-doGet() Method: This method is executed when a GET request is received from the web browser. It forwards the request to the appropriate JSP (JavaServer Pages) file (index.jsp or print.jsp) based on the request parameters.
+doGet() Method: This method is executed when a GET request is received from the web browser. 
+It forwards the request to the appropriate JSP (JavaServer Pages) file (index.jsp or print.jsp) based on the request parameters.
 
-doPost() Method: This method is executed when a POST request is received from the web browser. It handles various operations based on the values of the command parameter received from the request. The operations include logging in, logging out, changing user settings, managing reservations, managing users, and boardrooms.
+doPost() Method: This method is executed when a POST request is received from the web browser. 
+It handles various operations based on the values of the command parameter received from the request. 
+The operations include logging in, logging out, changing user settings, managing reservations, managing users, and boardrooms.
 
-Database Operations: The code interacts with the database using the DB class (not provided in the code snippet) for various tasks, including retrieving user data, boardrooms, reservations, updating user settings, adding reservations, etc.
+Database Operations: The code interacts with the database using the DB class (not provided in the code snippet) for various tasks, 
+including retrieving user data, boardrooms, reservations, updating user settings, adding reservations, etc.
 
 Other Utility Methods: There are some utility methods like getCache() and getCreated() to access the cache and created variables, respectively.
 
-Cache Management: The code utilizes a Cache class (not provided in the code snippet) for caching data and starting/stopping a cleaning service for cache management.
+Cache Management: The code utilizes a Cache class (not provided in the code snippet) for caching data and 
+starting/stopping a cleaning service for cache management.
 
-It's important to note that some classes, such as DB and Cache, are referenced in the code but not defined within the provided snippet. To fully understand the functionality and correctness of this servlet, it's essential to examine the complete code, including the definitions of those classes. Additionally, without the associated JSP files (index.jsp and print.jsp), it's challenging to understand the complete flow of the application and how the servlet interacts with the front-end.
  */
 
 package registrationboardroom;
