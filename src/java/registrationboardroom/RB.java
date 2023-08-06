@@ -1,9 +1,10 @@
-/**
- *
- * Servlet class to receive and delegate requests to phones and retrieve and return XML responses
-Java servlet class called RB (short for RegistrationBoardroom), which handles requests from phones, generates XML responses, and manages phone objects. Let's break down the code and understand its main components:
+/*
+Servlet class to receive and delegate requests to phones and retrieve and return XML responses
+Java servlet class called RB (short for RegistrationBoardroom), which handles requests from phones, generates XML responses, 
+and manages phone objects. Let's break down the code and understand its main components:
 
-Package and Imports: The class is defined within the package registrationboardroom. It imports various classes required for servlets, logging, and database operations.
+Package and Imports: The class is defined within the package registrationboardroom. 
+It imports various classes required for servlets, logging, and database operations.
 
 Class Variables:
 
@@ -11,22 +12,31 @@ separator: A constant storing the operating system's file separator character (e
 progFolder: A constant storing the location of the configuration and log folders in the Tomcat web application directory (catalina.home).
 proxyConfigFile: A constant storing the path to the proxy configuration file.
 logFile: A constant storing the path to the log file where log messages will be written.
-TOMCAT_PORT: A variable to store the port number on which Tomcat is listening. It is initialized to zero and is later set to the local port if not already assigned.
+TOMCAT_PORT: A variable to store the port number on which Tomcat is listening. 
+It is initialized to zero and is later set to the local port if not already assigned.
 Phones: A Hashtable (a synchronized hash table) that stores Phone objects referenced by their phone numbers (ext).
-HOST_IP: A variable to store the IP address of the local host. It is initialized to null and later set to the local IP address if not already assigned.
+HOST_IP: A variable to store the IP address of the local host. 
+It is initialized to null and later set to the local IP address if not already assigned.
 version: A constant representing the version of the application.
 JDBC_url: A constant storing the JDBC URL for connecting to the MySQL database.
 logger: An instance of the Logger class from Apache Log4j library used for logging.
 db: An instance of the DB class representing the database connection and operations.
-Init() Method: This method is executed when the servlet is initialized. It sets up the logger and checks the proxy configuration file for details. If proxy configuration is enabled, it sets the system properties for proxy.
+Init() Method: This method is executed when the servlet is initialized. 
+It sets up the logger and checks the proxy configuration file for details. 
+If proxy configuration is enabled, it sets the system properties for proxy.
 
-doGet() Method: This method is executed when a GET request is received from a phone. It handles phone-related parameters such as IP address and phone number (ipaddress and phonenumber in the request). Based on these parameters, it creates or retrieves the corresponding Phone object from the Phones hash table. Then, it calls the generateXML() method on the Phone object to obtain the XML response, which is sent back to the phone in the HTTP response.
+doGet() Method: This method is executed when a GET request is received from a phone. 
+It handles phone-related parameters such as IP address and phone number (ipaddress and phonenumber in the request). 
+Based on these parameters, it creates or retrieves the corresponding Phone object from the Phones hash table. 
+Then, it calls the generateXML() method on the Phone object to obtain the XML response, which is sent back to the phone in the HTTP response.
 
-Phone Management: The code handles phone-related tasks by interacting with the Phone class (not provided in the code snippet). The Phone class seems to represent phone objects and is used to generate XML responses for phone requests.
+Phone Management: The code handles phone-related tasks by interacting with the Phone class (not provided in the code snippet). 
+The Phone class seems to represent phone objects and is used to generate XML responses for phone requests.
 
-Database Operations: The code interacts with the database using the DB class for various tasks (e.g., retrieving phone data). However, the complete implementation of the DB class is not provided in the code snippet.
+Database Operations: The code interacts with the database using the DB class for various tasks (e.g., retrieving phone data). 
 
-Overall, this servlet appears to handle communication with phones, manage phone objects, and generate XML responses based on phone requests. The XML responses likely contain data related to boardroom reservations or other relevant information. To fully understand the functionality and correctness of this servlet, it's essential to examine the complete code, including the definitions of the Phone and DB classes and the content of the XML responses.
+Overall, this servlet handles communication with phones, manage phone objects, and generate XML responses based on phone requests. 
+The XML responses likely contain data related to boardroom reservations or other relevant information. 
   
  */
 package registrationboardroom;
