@@ -1,3 +1,28 @@
+/*
+Java class named Browser which appears to be part of a web application for managing boardroom reservations. Let's go through the code to understand its functionality:
+
+The Browser class contains several constants representing different states and categories related to login and boardrooms.
+
+It includes various private fields representing different properties and settings related to the user, boardrooms, reservations, error messages, history, and the current session.
+
+The constructor initializes the class and sets some default values for its properties.
+
+The class provides getter and setter methods for various properties, allowing access and modification of its internal state.
+
+The getWeekReservations() method generates the reservation table for a given boardroom and time range, based on the provided settings. It computes and formats the reservations either for admin users or regular users.
+
+The getUserHistory() method generates a history table of reservations for a specific user.
+
+The getBoardrooms() method retrieves a list of boardrooms from the database and stores them in a hashtable.
+
+The login() method is used for user login. It takes a phone number and password as input and returns an integer code representing the login result, such as LOGIN_OK, WRONG_USERNAME, WRONG_PASSWORD, or ALREADY_LOGGED. The method checks the user credentials against the database using SHA-1 hashing for password comparison.
+
+The class also includes some utility methods, such as findFreeBoardrooms() and getWeekTable(), which help in finding available boardrooms and generating tables for display.
+
+The class makes use of other classes, such as DB, Reservation, Table, and TableSetting, to interact with the database and perform various operations related to boardrooms and reservations.
+*/
+
+
 package registrationboardroom;
 
 import org.apache.log4j.Logger;
