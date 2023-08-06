@@ -1,3 +1,31 @@
+/**
+ defines several classes related to generating and managing a table for displaying reservations of a boardroom. Here's a summary of each class and its purpose:
+
+Event:
+
+Represents an event in the table with properties rowspan and description.
+rowspan indicates how many rows the event should span in the table.
+description holds the text to be displayed in the event cell.
+Day:
+
+Represents a day in the table with a hashtable of events (daytable) for that day.
+rows holds the number of rows required for the day in the table.
+DateComparator:
+
+Implements the Comparator interface to provide custom comparison logic for sorting dates.
+Used for sorting dates in the weektable.
+Table:
+
+The main class that generates and manages the reservation table for a boardroom.
+Contains a hashtable weektable to store each day's data (Day objects) for the entire week.
+rowtable is a hashtable to store the time rows of the table.
+reservations is a vector to store the reservations of the boardroom.
+boardroom_id indicates the boardroom's ID.
+Contains methods like computeReservations, generateUserReservations, generateAdminReservations, and computeTable to handle table generation and data retrieval.
+generateTable is used to generate the actual HTML table based on the collected data.
+Overall, the Table class is responsible for creating a dynamic table to display reservations for a boardroom. It uses other helper classes (Event, Day, and DateComparator) to store and organize data. The class allows generating tables for both user reservations and admin reservations, and it handles different time intervals for the table (e.g., by hours, 30 minutes, or 15 minutes). The table generation is dynamic and can span multiple rows to accommodate reservations that overlap in time.
+ */
+
 package registrationboardroom;
 
 import java.util.Hashtable;
@@ -15,10 +43,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Comparator;
 
-/**
- *
- * 
- */
+
 class Event {
     public int rowspan;
     public String description;
