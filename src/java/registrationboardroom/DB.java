@@ -1,3 +1,41 @@
+/**
+ * Class for initialization mySQL connection by JDBC driver and creating needed tables.
+ * Also serve all database operations, which are public methods with all needed parameters.
+ *
+ Java class named DB, which is responsible for handling the connection and operations with a MySQL database in a system related to boardroom reservations. It includes methods for initializing the connection, retrieving, updating, and deleting data from various database tables.
+
+Let's break down the key elements of the code:
+
+Class Members:
+
+jdbcurl: A private string variable used to store the JDBC URL for connecting to the MySQL server.
+logger: A private instance of the Logger class from the log4j library used for logging.
+con: A Connection variable used in each method to perform database operations.
+mysqlDateTimeFormat: A string variable representing the date-time format used in MySQL database queries.
+Constructor:
+
+The class has a constructor that takes a Logger instance and a JDBC URL as parameters.
+The constructor initializes the logger, jdbcurl, and the con (connection) variables by calling the getConnection method.
+Database Connection and Initialization:
+
+The getConnection method is used to initialize the JDBC driver and establish a connection to the MySQL server using the provided JDBC URL.
+The connection is established by loading the MySQL JDBC driver class and using the DriverManager.getConnection() method.
+The method returns the connection object or null if an error occurs during the connection process.
+Database Operation Methods:
+
+The class includes several public methods that perform various database operations such as retrieving reservations, boardrooms, users, and their settings, adding new records, updating records, and deleting records.
+Each method executes an SQL query and returns the results as a ResultSet object, which can be used to access the retrieved data.
+SQL Queries:
+
+The SQL queries are constructed using string concatenation, which may pose a risk of SQL injection if not handled properly. Ideally, the code should use prepared statements to prevent SQL injection attacks.
+Initialization and Dropping of Tables:
+
+The class has private methods dbinit and dbdrop, which are used for creating and dropping the necessary tables, respectively. These methods are commented out to prevent unintentional table creation or deletion.
+It's important to note that this code is designed to be used with a specific MySQL database schema, which includes tables for boardroom, user, reservation, and sequences. The code also assumes the existence of other supporting tables like setting. Additionally, it performs some basic hashing of passwords using the SHA-1 algorithm before storing them in the database.
+
+Overall, the code provides a basic database connection and operations interface for managing boardroom reservations and related user data. However, it may need further improvements to enhance security and adapt it to specific application requirements.
+ */
+
 package registrationboardroom;
 
 import java.sql.*;
@@ -7,14 +45,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-/**
- * 
- * Class for initialization mySQL connection by JDBC driver and creating needed tables.
- * Also serve all database operations, which are public methods with all needed parameters.
- *
- * 
- * F
- */
+
 public class DB {
     private String jdbcurl; // internal url string for connecting to mySQL server
     private Logger logger; // logger instance created in RB.java
