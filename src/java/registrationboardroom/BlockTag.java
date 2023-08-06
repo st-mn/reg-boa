@@ -1,21 +1,34 @@
 /*
-custom JSP tag named BlockTag. This custom tag is used for block-level content overrides in JSP pages. It allows developers to define blocks of content that can be overridden and replaced in child JSP files.
+custom JSP tag named BlockTag. This custom tag is used for block-level content overrides in JSP pages. 
+It allows developers to define blocks of content that can be overridden and replaced in child JSP files.
 
 The code begins with package and import statements that include the necessary classes for JSP tag development.
 
-The Utils class is defined, which contains a utility method named getOverrideVariableName(). This method is used to generate a unique name for a block override based on the provided block name.
+The Utils class is defined, which contains a utility method named getOverrideVariableName(). 
+This method is used to generate a unique name for a block override based on the provided block name.
 
-The BlockTag class is defined, which extends TagSupport. It represents the custom JSP tag that handles the block-level content override functionality.
+The BlockTag class is defined, which extends TagSupport. It represents the custom JSP tag 
+that handles the block-level content override functionality.
 
-The BlockTag class has a single private field named name, which will store the name of the block to be overridden.
+The BlockTag class has a single private field named name, which will store the 
+name of the block to be overridden.
 
 The setName(String name) method is provided to set the value of the name field.
 
-The doStartTag() method is overridden from TagSupport. This method is called when the custom tag is encountered in the JSP file. It determines whether the block has content to override or not. If there is no content for the block, it returns EVAL_BODY_INCLUDE, indicating that the body content of the tag should be processed (if any).
+The doStartTag() method is overridden from TagSupport. This method is called 
+when the custom tag is encountered in the JSP file. It determines whether the block 
+has content to override or not. If there is no content for the block, it returns EVAL_BODY_INCLUDE, 
+indicating that the body content of the tag should be processed (if any).
 
-The doEndTag() method is also overridden from TagSupport. This method is called after the body content of the tag (if any) has been processed. It writes the overridden content for the block, if available, to the output stream using pageContext.getOut().write(overriedContent). If there is no overridden content, it returns EVAL_PAGE, indicating that the rest of the JSP page should be processed.
+The doEndTag() method is also overridden from TagSupport. 
+This method is called after the body content of the tag (if any) has been processed. 
+It writes the overridden content for the block, if available, 
+to the output stream using pageContext.getOut().write(overriedContent). 
+If there is no overridden content, it returns EVAL_PAGE, indicating that the rest of the JSP page should be processed.
 
-The getOverriedContent() method is a private method used internally to retrieve the overridden content for the block. It generates the variable name for the block using the Utils.getOverrideVariableName(name) method and retrieves the content from the request attributes.
+The getOverriedContent() method is a private method used internally to retrieve the overridden content for the block. 
+It generates the variable name for the block using the Utils.getOverrideVariableName(name) method 
+and retrieves the content from the request attributes.
 */
 package registrationboardroom;
 
