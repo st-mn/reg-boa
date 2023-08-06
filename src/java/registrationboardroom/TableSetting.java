@@ -1,18 +1,17 @@
 package registrationboardroom;
 
 /**
-Class named TableSetting, which is used to store settings related to the display of a table for boardroom reservations. Here's a description of the class:
+Class named TableSetting, which is used to store settings related to the display of a table for boardroom reservations. 
 
 TableSetting:
-
 Represents settings for displaying the reservation table.
 Contains private fields to store different settings such as timezone, startHour, endHour, precision, firstDay, weekend, and ampm.
 The constructor TableSetting is used to initialize these settings when creating an object of this class.
 Parameters passed to the constructor set the corresponding settings.
 The _weekend and _ampm parameters are integers (0 or 1), and they are used to set boolean values (weekend and ampm, respectively) based on the integer input.
 Provides getter methods to access the values of the settings.
-Here is a summary of the fields in the TableSetting class:
 
+Fields in the TableSetting class:
 timezone: A string representing the timezone for the table (e.g., "GMT", "UTC", "America/New_York", etc.).
 startHour: An integer representing the starting hour for the table display (e.g., 0 for midnight, 12 for noon, etc.).
 endHour: An integer representing the ending hour for the table display.
@@ -20,7 +19,9 @@ precision: An integer representing the time precision of the table (e.g., by hou
 firstDay: An integer representing the first day of the week for the table (e.g., 0 for Sunday, 1 for Monday, etc.).
 weekend: A boolean indicating whether the weekends should be included in the table or not.
 ampm: A boolean indicating whether the table should display time in AM/PM format or 24-hour format.
-This class is designed to hold user-defined settings for the table, and it can be used to configure the table's appearance and behavior according to specific preferences.
+
+This class is designed to hold user-defined settings for the table, 
+and it can be used to configure the table's appearance and behavior according to specific preferences.
  */
 public class TableSetting {
     private String timezone;
