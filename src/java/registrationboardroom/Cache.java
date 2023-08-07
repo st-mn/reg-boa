@@ -28,7 +28,7 @@ The class also tracks user sessions using a list of usernames and provides metho
 The getStats() method generates a statistics table containing information about active sessions, memory usage, uptime, etc.
 The class contains methods to start and stop the cleaning service using the CleaningService class.
 
-Overall, the code demonstrates an implementation of a cache mechanism for managing Browser instances 
+Overall, it is implementation of a cache mechanism for managing Browser instances 
 and a cleaning service that periodically removes inactive sessions from the cache. The cache is maintained using a Hashtable, 
 and the cleaning service is scheduled for execution at regular intervals using a ScheduledExecutorService. 
 The Cache class also provides methods to track active user sessions and gather statistics about the cache and user activity.
