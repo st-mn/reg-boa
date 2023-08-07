@@ -24,7 +24,7 @@ Methods to generate forms for changing passwords, user information, and administ
 Methods to generate lists of boardrooms, reservations, and their related actions.
 Methods to handle information screens, error screens, and confirmation screens.
 
-Overall, the View class appears to be a part of a larger Java application that creates XML responses 
+Overall, the View class creates XML responses 
 for an Openstage phone, facilitating boardroom reservations and administrative tasks. 
 It uses the phonescreengenerator library to build the XML-based screens and forms. 
 The application likely communicates with a database to manage boardroom reservations and user information.
