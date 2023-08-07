@@ -5,7 +5,7 @@ inactivity duration is greater then sessionTimeoutMinutes variable and remove th
 3 classes (CleaningThread, CleaningService, and Cache) and some utility methods used for managing a cache of Browser instances 
 and implementing a cleaning service to remove inactive sessions from the cache.
 
-Cache class:
+CleaningThread class:
 This class implements the Runnable interface and is responsible for checking the inactivity duration of Browser instances
 in the cache and removing inactive sessions.
 It takes the Cache, sessionTimeoutMinutes, and Logger instances as parameters in its constructor.
