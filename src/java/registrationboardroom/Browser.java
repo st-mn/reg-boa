@@ -1,5 +1,5 @@
 /*
-Java class named Browser which appears to be part of a web application for managing boardroom reservations. 
+Java class named Browser implements user view of the reservation overview and is part of a web application for managing boardroom reservations. 
 
 The Browser class contains several constants representing different states and categories related to login and boardrooms.
 
