@@ -2,8 +2,6 @@
 custom JSP tag named BlockTag. This custom tag is used for block-level content overrides in JSP pages. 
 It allows developers to define blocks of content that can be overridden and replaced in child JSP files.
 
-The code begins with package and import statements that include the necessary classes for JSP tag development.
-
 The Utils class is defined, which contains a utility method named getOverrideVariableName(). 
 This method is used to generate a unique name for a block override based on the provided block name.
 
@@ -29,6 +27,9 @@ If there is no overridden content, it returns EVAL_PAGE, indicating that the res
 The getOverriedContent() method is a private method used internally to retrieve the overridden content for the block. 
 It generates the variable name for the block using the Utils.getOverrideVariableName(name) method 
 and retrieves the content from the request attributes.
+
+Custom JSP tag named BlockTag. This custom tag is used for block-level content overrides in JSP pages. 
+It allows developers to define blocks of content that can be overridden and replaced in child JSP files.
 */
 package registrationboardroom;
 
