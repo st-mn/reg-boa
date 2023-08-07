@@ -29,6 +29,9 @@ Other Utility Methods: There are some utility methods like getCache() and getCre
 Cache Management: The code utilizes a Cache class (not provided in the code snippet) for caching data and 
 starting/stopping a cleaning service for cache management.
 
+Portal Class provides servlet that does Administration of Registration boardroom in the web browser.
+
+
  */
 
 package registrationboardroom;
